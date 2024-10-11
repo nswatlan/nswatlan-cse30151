@@ -24,15 +24,13 @@ def DPLL(clauses): #takes in list of the form [[],[],[]]} where inner lists are 
     literal = choose_literal(clauses)
     if DPLL(unit_propagate(literal, clauses)): 
         return True
-    print(-literal)
     return DPLL(unit_propagate(-literal, clauses))
 
 def find_unit_clause(clauses): 
     for clause in clauses: 
         if len(clause) == 1: 
             return clause
-        else: 
-            return None
+    return None
 
 def unit_propagate(literal, clauses): 
     new_wff = []
@@ -44,10 +42,10 @@ def unit_propagate(literal, clauses):
     return new_wff
 
 def find_pure_literals(clauses): 
-    all_literals = set(lit for clause in clauses for lit in clause)
+    all_literals = set(lit for clause in clauses for lit in clause) #use set so no literals are repeated
     pure_literals = []
     for literal in all_literals: 
-        if -literal in all_literals:  #append if negation is not present 
+        if -literal not in all_literals:  #append if negation is not present 
             pure_literals.append(literal)
     return pure_literals
 
