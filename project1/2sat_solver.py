@@ -6,8 +6,58 @@ import csv
 import argparse
 from csv_reader import csv_to_wff_dict
 
-def dpll(filename): 
-    pass
+def DPLL(clauses): #takes in list of the form [[],[],[]]} where inner lists are clauses of literals 
+    #base cases
+    if len(clauses) == 0: #satisfiable
+        return True
+    elif [] in clauses: #unsatisfiable
+        return False
+    #unit propagation
+    units = find_unit_clause(clauses)
+    if units is not None: 
+        return DPLL(unit_propagate(units[0], clauses))
+    #pure literal elimination 
+    pure_literals = find_pure_literals(clauses)
+    if len(pure_literals) > 0: 
+         return DPLL(pure_literal_assign(pure_literals[0], clauses))
+    #choose literal and recursively compute 
+    literal = choose_literal(clauses)
+    if DPLL(unit_propagate(literal, clauses)): 
+        return True
+    print(-literal)
+    return DPLL(unit_propagate(-literal, clauses))
+
+def find_unit_clause(clauses): 
+    for clause in clauses: 
+        if len(clause) == 1: 
+            return clause
+        else: 
+            return None
+
+def unit_propagate(literal, clauses): 
+    new_wff = []
+    for clause in clauses: 
+        if literal in clause:
+            continue #clause is satisfied
+        new_clause = [l for l in clause if l != -literal] #remove negation of current literal
+        new_wff.append(new_clause)
+    return new_wff
+
+def find_pure_literals(clauses): 
+    all_literals = set(lit for clause in clauses for lit in clause)
+    pure_literals = []
+    for literal in all_literals: 
+        if -literal in all_literals:  #append if negation is not present 
+            pure_literals.append(literal)
+    return pure_literals
+
+def pure_literal_assign(literal, clauses):
+    return unit_propagate(literal, clauses)
+
+def choose_literal(clauses): 
+    #choose first literal (clauses is modified as alg goes on)
+    return clauses[0][0]
+
 
 if __name__ == "__main__": 
     #parse command line argument (containing file of wffs in cnf form) to be solved 
@@ -18,6 +68,10 @@ if __name__ == "__main__":
     with open(args.filename) as file: 
         CSV_data = list(csv.reader(file))
     problems = csv_to_wff_dict(CSV_data)
-    for prob in problems:
-        for key, list in prob.items(): 
-            print(list)
+    for problem in problems: 
+        for number, clauses in problem.items(): 
+            if DPLL(clauses): 
+                print(f"Problem {number}: Satisfiable")
+            else: 
+                print(f"Problem {number}: Unsatisfiable")
+    
