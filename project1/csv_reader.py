@@ -1,4 +1,5 @@
 #Function to read in input CNF file 
+import re 
 
 def csv_to_wff_dict(csv_data): 
     list_of_probs = []
@@ -6,7 +7,7 @@ def csv_to_wff_dict(csv_data):
     for i in range(len(csv_data)):
         temp_dict = {}
         bigger_list = []
-        if csv_data[i][0] == 'c':  # i keeps track of all comment lines in csv (#of problems)
+        if re.findall(r'c', csv_data[i][0]):  # i keeps track of all comment lines in csv (#of problems)
             count=1
             while(i+count < len(csv_data) and csv_data[i+count][0] != 'c'): #count the number of clauses
                 count += 1
