@@ -20,11 +20,11 @@ def DPLL(clauses): #takes in list of the form [[],[],[]]} where inner lists are 
     pure_literals = find_pure_literals(clauses)
     if len(pure_literals) > 0: 
          return DPLL(pure_literal_assign(pure_literals[0], clauses))
-    #choose literal and recursively compute 
+    #choose literal 
     literal = choose_literal(clauses)
-    if DPLL(unit_propagate(literal, clauses)): 
+    if DPLL(unit_propagate(literal, clauses)): #test for original assignment (for chosen literal)
         return True
-    return DPLL(unit_propagate(-literal, clauses))
+    return DPLL(unit_propagate(-literal, clauses)) #test for opposite assignment 
 
 def find_unit_clause(clauses): 
     for clause in clauses: 
