@@ -61,7 +61,7 @@ def choose_literal(clauses):
     return clauses[0][0]
 
 def exp_func(x, a, b):
-    return a * np.exp(b * x)
+    return b + a*(2**x)
 
 if __name__ == "__main__": 
     #parse command line argument (containing file of wffs in cnf form) to be solved 
@@ -95,30 +95,28 @@ if __name__ == "__main__":
 
     x_fit = np.linspace(min(input_sizes), max(input_sizes), 100)
 
-    if len(satisfiable_times) > 0 and len(input_sizes) > 0:
-        # Fit the exponential curve for satisfiable times
-        params_satisfiable, _ = curve_fit(exp_func, input_sizes, satisfiable_times, p0=(1, 0.01))
+    #filtering out zero values so line of best fit is not affected
+    filtered_satisfiable = [(size, timing) for size, timing in zip(input_sizes, satisfiable_times) if timing > 0]
+    filtered_unsatisfiable = [(size, timing) for size, timing in zip(input_sizes, unsatisfiable_times) if timing > 0]
 
-    if len(unsatisfiable_times) > 0 and len(input_sizes) > 0:
+    #unzipping 
+    filtered_sat_inputs, filtered_sat_times = zip(*filtered_satisfiable)
+    filtered_unsat_inputs, filtered_unsat_times = zip(*filtered_unsatisfiable)
+
+    plt.scatter(filtered_sat_inputs, filtered_sat_times, color='green', label='Satisfiable')
+    plt.scatter(filtered_unsat_inputs, filtered_unsat_times, color='red', label='Unsatisfiable' )
+
+
+    if len(filtered_unsatisfiable) > 0 and len(input_sizes) > 0:
         # Fit the exponential curve for unsatisfiable times
-        params_unsatisfiable, _ = curve_fit(exp_func, input_sizes, unsatisfiable_times, p0=(1, 0.01))
+        params_unsatisfiable, _ = curve_fit(exp_func, filtered_unsat_inputs, filtered_unsat_times, p0=(1, 0.01))
 
-    plt.scatter(input_sizes, satisfiable_times, color='green', label='Satisfiable')
-    plt.scatter(input_sizes, unsatisfiable_times, color='red', label='Unsatisfiable' )
-
-    if len(satisfiable_times) > 0:
-        y_fit_satisfiable = exp_func(x_fit, *params_satisfiable)
-        plt.plot(x_fit, y_fit_satisfiable, color='blue', label='Fitted Curve (Satisfiable)')
-        a, b = params_satisfiable
-        equation_satisfiable = f'y = {a:.2f} * e^({b:.2f} * x)'
-        plt.text(0.05 * max(input_sizes), 0.8 * max(satisfiable_times), equation_satisfiable, color='blue')
-
-    if len(unsatisfiable_times) > 0:
+    if len(filtered_unsat_times) > 0:
         y_fit_unsatisfiable = exp_func(x_fit, *params_unsatisfiable)
         plt.plot(x_fit, y_fit_unsatisfiable, color='orange', label='Fitted Curve (Unsatisfiable)')
         a, b = params_unsatisfiable
-        equation_unsatisfiable = f'y = {a:.2f} * e^({b:.2f} * x)'
-        plt.text(0.05 * max(input_sizes), 0.7 * max(unsatisfiable_times), equation_unsatisfiable, color='orange')
+        equation_unsatisfiable = f'y = {b:.2f} + {a:.2f} * (2^V)'
+        plt.text(0.05 * max(filtered_unsat_inputs), 0.7 * max(filtered_unsat_times), equation_unsatisfiable, color='orange')
 
     plt.xlabel('Input Size (Number of Variables)')
     plt.ylabel('Execution Time (seconds)')
