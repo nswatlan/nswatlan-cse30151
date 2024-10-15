@@ -13,9 +13,9 @@ def DPLL(clauses): #takes in list of the form [[],[],[]]} where inner lists are 
     elif [] in clauses: #unsatisfiable
         return False
     #unit propagation
-    units = find_unit_clause(clauses)
-    if units is not None: 
-        return DPLL(unit_propagate(units[0], clauses))
+    unit_clause = find_unit_clause(clauses)
+    if unit_clause is not None: 
+        return DPLL(unit_propagate(unit_clause[0], clauses))
     #pure literal elimination 
     pure_literals = find_pure_literals(clauses)
     if len(pure_literals) > 0: 
