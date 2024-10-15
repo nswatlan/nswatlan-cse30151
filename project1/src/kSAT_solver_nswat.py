@@ -4,7 +4,7 @@
 
 import csv 
 import argparse
-from csv_reader import csv_to_wff_dict
+from csv_reader_nswat import csv_to_wff_dict
 
 def DPLL(clauses): #takes in list of the form [[],[],[]]} where inner lists are clauses of literals 
     #base cases
