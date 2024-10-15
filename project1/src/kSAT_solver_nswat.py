@@ -103,10 +103,8 @@ if __name__ == "__main__":
         # Fit the exponential curve for unsatisfiable times
         params_unsatisfiable, _ = curve_fit(exp_func, input_sizes, unsatisfiable_times, p0=(1, 0.01))
 
-
-
     plt.scatter(input_sizes, satisfiable_times, color='green', label='Satisfiable')
-    plt.scatter(input_sizes, unsatisfiable_times, color='red', label='Unsatisfiable')
+    plt.scatter(input_sizes, unsatisfiable_times, color='red', label='Unsatisfiable' )
 
     if len(satisfiable_times) > 0:
         y_fit_satisfiable = exp_func(x_fit, *params_satisfiable)
