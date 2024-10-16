@@ -71,8 +71,8 @@ if __name__ == "__main__":
     #read in wff from csv 
     with open(args.filename) as file: 
         CSV_data = list(csv.reader(file))
-    problems = csv_to_wff_dict(CSV_data)
-
+    problems, literal_counts = csv_to_wff_dict(CSV_data)
+    print(literal_counts)
     input_sizes = []            #lists for execution time plots 
     satisfiable_times = []
     unsatisfiable_times = []
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     for problem in problems: 
         for number, clauses in problem.items(): 
             start_time = time.time()
-            input_sizes.append(len(clauses))
+            input_sizes.append(literal_counts[number]) #len(clauses)
             if DPLL(clauses): 
                 print(f"Problem {number}: Satisfiable")
                 satisfiable_times.append(time.time() - start_time)
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         equation_unsatisfiable = f'y = {b:.2f} + {a:.2f} * (2^V)'
         plt.text(0.05 * max(filtered_unsat_inputs), 0.7 * max(filtered_unsat_times), equation_unsatisfiable, color='orange')
 
-    plt.xlabel('Input Size (Number of Variables)')
+    plt.xlabel('Input Size (Number of Literals)')
     plt.ylabel('Execution Time (seconds)')
     plt.title('Execution Time vs Input Size for kSAT Solver')
     plt.legend()
