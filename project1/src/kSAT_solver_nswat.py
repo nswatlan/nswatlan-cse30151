@@ -60,7 +60,7 @@ def choose_literal(clauses):
     #choose first literal (clauses is modified as alg goes on)
     return clauses[0][0]
 
-def exp_func(x, a, b):
+def exp_func(x,a,b):
     return b + a*(2**x)
 
 if __name__ == "__main__": 
@@ -72,7 +72,6 @@ if __name__ == "__main__":
     with open(args.filename) as file: 
         CSV_data = list(csv.reader(file))
     problems, literal_counts = csv_to_wff_dict(CSV_data)
-    print(literal_counts)
     input_sizes = []            #lists for execution time plots 
     satisfiable_times = []
     unsatisfiable_times = []
@@ -109,17 +108,16 @@ if __name__ == "__main__":
 
     if len(filtered_unsatisfiable) > 0 and len(input_sizes) > 0:
         # Fit the exponential curve for unsatisfiable times
-        params_unsatisfiable, _ = curve_fit(exp_func, filtered_unsat_inputs, filtered_unsat_times, p0=(1, 0.01))
+        params_unsatisfiable, _ = curve_fit(exp_func, filtered_unsat_inputs, filtered_unsat_times, p0=(0.001, 0.001))
 
     if len(filtered_unsat_times) > 0:
         y_fit_unsatisfiable = exp_func(x_fit, *params_unsatisfiable)
         plt.plot(x_fit, y_fit_unsatisfiable, color='orange', label='Fitted Curve (Unsatisfiable)')
         a, b = params_unsatisfiable
-        equation_unsatisfiable = f'y = {b:.2f} + {a:.2f} * (2^V)'
-        plt.text(0.05 * max(filtered_unsat_inputs), 0.7 * max(filtered_unsat_times), equation_unsatisfiable, color='orange')
 
+        
     plt.xlabel('Input Size (Number of Literals)')
     plt.ylabel('Execution Time (seconds)')
     plt.title('Execution Time vs Input Size for kSAT Solver')
     plt.legend()
-    plt.savefig('execution_time_graph.png')
+    plt.savefig('plot_execution_time_graph.png')
