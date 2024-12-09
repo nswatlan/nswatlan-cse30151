@@ -67,3 +67,7 @@ def simulate_ntm(tm, input_string, max_depth=100):
     
     print("String rejected or step limit reached.")
     return tree
+
+if __name__ == "__main__": 
+    tm = load_turing_machine("aplus.csv")
+    simulate_ntm(tm, "bbb")
