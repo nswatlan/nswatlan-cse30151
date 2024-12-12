@@ -1,1 +1,15 @@
-
+palindrome Machine
+q0,q1,q2,qacc,qrej
+a,b,_
+a,b,_
+q0
+qacc
+qrej
+q0,a,q1,_,R
+q0,b,q1,_,R
+q0,_,qacc,_,R
+q1,a,q2,_,L
+q1,b,q2,_,L
+q1,_,qacc,_,R
+q2,a,q0,_,R
+q2,b,q0,_,R

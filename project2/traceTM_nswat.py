@@ -69,5 +69,5 @@ def simulate_ntm(tm, input_string, max_depth=100):
     return tree
 
 if __name__ == "__main__": 
-    tm = load_turing_machine("aplus.csv")
-    simulate_ntm(tm, "bbb")
+    tm = load_turing_machine("palindrome.csv")
+    simulate_ntm(tm, "aab")
