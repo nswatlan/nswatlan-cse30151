@@ -1,0 +1,6 @@
+Language:  aplus.csv
+Input String:  aaaa
+String accepted!
+Language:  aplus.csv
+Input String:  bbb
+String rejected or step limit reached.

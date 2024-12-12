@@ -1,0 +1,15 @@
+Language:  aplus.csv
+Input String:  aaaaa
+String accepted at depth 6!
+Trace to acceptance:
+Config: ['aaaaa_', 'qacc', '']
+Config: ['aaaaa_', 'qacc', '']
+Config: ['aaaaa_', 'qacc', '']
+Config: ['aaaaa_', 'qacc', '']
+Config: ['aaaaa_', 'qacc', '']
+Language:  aplus.csv
+Input String:  bbbb
+String rejected or step limit reached.
+Language:  aplus.csv
+Input String:  aaabbbaa
+String rejected or step limit reached.
