@@ -1,0 +1,13 @@
+States: {'C', 'A', 'S', 'B'}
+Alphabet: {'a', 'b', 'd', 'ε'}
+Stack Alphabet: {'C', 'A', 'S', 'B'}
+Start State: S
+Start Stack: ['S']
+Accept States: ['accept']
+Transitions:
+('S', '', 'S', ['C'])
+('A', 'a', 'A', ['a'])
+('A', '', 'A', ['A'])
+('B', 'b', 'B', ['b'])
+('B', '', 'B', ['B'])
+('C', 'd', 'C', ['d'])

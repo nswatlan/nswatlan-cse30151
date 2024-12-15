@@ -1,0 +1,7 @@
+S,AB
+S,C
+A,aA
+A,ε
+B,bB
+B,ε
+C,d
