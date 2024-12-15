@@ -1,0 +1,9 @@
+state,input,next_state,start,accept
+q0,a,q1,yes,no
+q0,,q3,yes,no
+q1,b,q1,no,no
+q1,,q2,no,yes
+q3,a,q3,no,no
+q3,b,q4,no,no
+q4,c,q5,no,no
+q5,,q4,no,yes
