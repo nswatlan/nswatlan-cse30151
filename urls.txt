@@ -1,1 +1,3 @@
 https://github.com/nswatlan/nswatlan-cse30151/tree/main/Xcredit
+
+https://github.com/nswatlan/nswatlan-cse30151/tree/main/EC2 
